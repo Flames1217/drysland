@@ -177,7 +177,7 @@ main {
 }
 
 .menu .auth-status {
-  @apply mt-4 w-80 max-w-[90vw] text-center text-white text-sm leading-5;
+  @apply absolute top-full left-1/2 z-20 mt-4 w-96 max-w-[90vw] -translate-x-1/2 text-center text-white text-sm leading-5;
   text-shadow: 1px 1px 1px black;
 }
 
