@@ -6,6 +6,7 @@ export default class Menu {
     this.title = this.element.querySelector('.title')
     this.bgHex = this.element.querySelector('.bg-hex')
     this.buttons = this.element.querySelectorAll('button')
+    this.authStatus = this.element.querySelector('.auth-status')
     this.footer = this.element.querySelector('footer')
 
     this.open()
@@ -16,6 +17,7 @@ export default class Menu {
     gsap.set(this.element, { scale: 1 })
     gsap.set(this.bgHex, { scale: 0, rotate: -60 })
     gsap.set(this.title, { scale: 0 })
+    gsap.set(this.authStatus, { opacity: 0 })
     gsap.set(this.footer, { opacity: 0 })
     gsap.set(this.buttons, { scale: 0 })
   }
@@ -46,6 +48,14 @@ export default class Menu {
         duration: 1,
       })
       .to(
+        this.authStatus,
+        {
+          opacity: 1,
+          duration: 0.5,
+        },
+        '<',
+      )
+      .to(
         this.buttons,
         {
           scale: 1,
@@ -68,6 +78,10 @@ export default class Menu {
   async close() {
     await gsap
       .timeline()
+      .to(this.authStatus, {
+        opacity: 0,
+        duration: 0.1,
+      })
       .to(this.footer, {
         opacity: 0,
         duration: 0.1,

@@ -70,13 +70,13 @@ export default class State {
     }
 
     if (!localState && remoteState) {
-      this.#saveLocal(remoteState) // download remote
+      this.#saveLocal(remoteState)
       this.#setSyncStatus(this.#formatSyncSummary(remoteState))
       return
     }
 
     if (localState && !remoteState) {
-      await this.#saveRemote(localState) // upload local
+      await this.#saveRemote(localState)
       this.#setSyncStatus(this.#formatSyncSummary(localState))
       return
     }
@@ -88,13 +88,12 @@ export default class State {
 
     this.#setSyncStatus('云存档：检测到冲突，请选择版本')
 
-    // handle conflict
     Modal.instance.open('#state-conflict.modal', {
       disableClose: true,
       onBeforeOpen: content => {
         const slot1 = new SaveSlot(localState)
           .onClick(async () => {
-            await this.#saveRemote(localState) // upload local
+            await this.#saveRemote(localState)
             this.#setSyncStatus(this.#formatSyncSummary(localState))
             Modal.instance.close()
           })
@@ -102,7 +101,7 @@ export default class State {
 
         const slot2 = new SaveSlot(remoteState)
           .onClick(() => {
-            this.#saveLocal(remoteState) // download remote
+            this.#saveLocal(remoteState)
             this.#setSyncStatus(this.#formatSyncSummary(remoteState))
             Modal.instance.close()
           })

@@ -176,6 +176,11 @@ main {
   @apply hover:text-sky-200 active:text-sky-200;
 }
 
+.menu .auth-status {
+  @apply mt-4 w-80 max-w-[90vw] text-center text-white text-sm leading-5 opacity-0;
+  text-shadow: 1px 1px 1px black;
+}
+
 /* modal */
 .modal-container {
   @apply relative h-full w-full flex items-center justify-center p-mobile;
