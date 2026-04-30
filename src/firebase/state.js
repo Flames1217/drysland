@@ -35,7 +35,7 @@ export default class State {
   }
 
   #setSyncStatus(text) {
-    UI.syncStatusText?.set(text)
+    UI.syncStatusText?.set(text).show()
   }
 
   #save(state) {

@@ -31,14 +31,14 @@ export default class Auth {
 
     this.subscribe(user => {
       const displayName = user?.displayName || user?.email || '未登录'
-      UI.authUserText.set(`当前账号：${displayName}`)
+      UI.authUserText.set(`当前账号：${displayName}`).show()
       UI.authToggle.setLabel(user ? '退出登录' : '登录').toggle(!user)
 
       if (user) {
-        UI.syncStatusText.set('云存档：正在同步...')
+        UI.syncStatusText.set('云存档：正在同步...').show()
         State.instance.sync()
       } else {
-        UI.syncStatusText.set('云存档：未连接')
+        UI.syncStatusText.set('云存档：未连接').show()
       }
 
       navigator.onLine && UI.authToggle.enable()
@@ -57,7 +57,7 @@ export default class Auth {
             signInWithPopup(this.auth, this.provider)
               .then(() => Modal.instance.close())
               .catch(error => {
-                UI.syncStatusText.set(`登录失败：${error.code || '未知错误'}`)
+                UI.syncStatusText.set(`登录失败：${error.code || '未知错误'}`).show()
                 console.error(error)
                 Modal.instance.close()
               })
