@@ -21,6 +21,7 @@ export default class Auth {
 
     this.auth = getAuth(FirebasApp.instance)
     this.provider = new GoogleAuthProvider()
+    this.provider.setCustomParameters({ prompt: 'select_account' })
 
     setPersistence(this.auth, browserLocalPersistence)
 
@@ -54,7 +55,12 @@ export default class Auth {
         new Button(content.querySelector('#continue'))
           .onClick(() => {
             signInWithPopup(this.auth, this.provider)
-            Modal.instance.close()
+              .then(() => Modal.instance.close())
+              .catch(error => {
+                UI.syncStatusText.set(`登录失败：${error.code || '未知错误'}`)
+                console.error(error)
+                Modal.instance.close()
+              })
           })
           .show()
       },
