@@ -1,13 +1,12 @@
 import { initializeApp } from 'firebase/app'
 
 const config = {
-  apiKey: 'AIzaSyC2c1aYh_Lwo_coiCvkge7cR5uTUvx4qtA',
-  authDomain: 'drysland-a9637.firebaseapp.com',
-  projectId: 'drysland-a9637',
-  storageBucket: 'drysland-a9637.firebasestorage.app',
-  messagingSenderId: '332006680874',
-  appId: '1:332006680874:web:cb8fc6b0a7eab4989f5653',
-  measurementId: 'G-BV9GHQ10S0',
+  apiKey: 'AIzaSyASM8DYQAWU_RXANjJwR8ulOS9-Eo6g238',
+  authDomain: 'platinum-honor-456309-u6.firebaseapp.com',
+  projectId: 'platinum-honor-456309-u6',
+  storageBucket: 'platinum-honor-456309-u6.firebasestorage.app',
+  messagingSenderId: '78437695861',
+  appId: '1:78437695861:web:11207365cdb37b5529933c',
 }
 
 export default class FirebasApp {
