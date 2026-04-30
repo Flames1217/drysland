@@ -10,7 +10,7 @@ export default class SaveSlot extends Button {
     this.element = this.element.cloneNode(true)
     this.element.id = this.element.id + ++SaveSlot.counter
 
-    const level = `Level ${state.level}`
+    const level = `第 ${state.level} 关`
     const date = state.timestamp
       ? new Date(state.timestamp).toLocaleString(undefined, {
           year: 'numeric',
@@ -20,7 +20,7 @@ export default class SaveSlot extends Button {
           minute: '2-digit',
           hour12: false,
         })
-      : 'N/D'
+      : '暂无'
 
     this.level = new Text(this.element.querySelector('.level')).set(level).show()
     this.level = new Text(this.element.querySelector('.date')).set(date).show()

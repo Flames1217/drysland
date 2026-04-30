@@ -1,143 +1,107 @@
-# 🏝️ Drysland
+﻿# 🏝️ Drysland
 
 ![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
-![Three.js	](https://img.shields.io/badge/ThreeJs-black?style=for-the-badge&logo=three.js&logoColor=white)
+![Three.js](https://img.shields.io/badge/ThreeJs-black?style=for-the-badge&logo=three.js&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-> 🥇 1st place in the [Three.js Journey Challenge 017](https://threejs-journey.com/challenges/017-island)
+> 🥇 在 [Three.js Journey Challenge 017](https://threejs-journey.com/challenges/017-island) 中获得第一名
 
-> Try it live here 👉 [drysland.dammafra.dev](https://drysland.dammafra.dev)
+> 在线体验 👉 [drysland.dammafra.dev](https://drysland.dammafra.dev)
 
-Inspired by classic **pipe-connection games**, Drysland is a relaxing, minimalist puzzle experience where you restore the flow of a river across a parched island by rotating and reconnecting its broken segments to bring water — and life — back to the land.
+Drysland 灵感来自经典的“管道连接”玩法。你需要旋转并重连断裂的河道地块，让河流重新贯通，为干涸的岛屿带回水与生机。
 
-Each level in Drysland is a procedurally generated island that gradually increases in size and difficulty.
-Pipe networks are created using a simplified version of the **Growing Tree algorithm**, ensuring each puzzle is both solvable and unique.
+每一关都是程序生成的岛屿，难度会随着关卡推进逐步提升。
+关卡网络基于简化版 **Growing Tree 算法** 构建，保证“可解且不重复”。
 
-<img src="./static/cover.png" alt="Cover"  >
+<img src="./static/cover.png" alt="封面"  >
 
-## Technologies Used
+## 技术栈
 
-- [Three.js](https://threejs.org/) (3D rendering)
-- [Tweakpane](https://tweakpane.github.io/docs/) (Debug)
+- [Three.js](https://threejs.org/)（3D 渲染）
+- [Tweakpane](https://tweakpane.github.io/docs/)（调试面板）
 - [@yomotsu/camera-controls](https://github.com/yomotsu/camera-controls)
 - [@pmndrs/pointer-events](https://www.npmjs.com/package/@pmndrs/pointer-events)
 - [GSAP](https://gsap.com/)
 - [Firebase](https://firebase.google.com/)
 - [Tailwind](https://tailwindcss.com/)
 
-## Setup
+## 本地运行
 
 ```bash
-# Install dependencies (only the first time)
+# 安装依赖（首次执行）
 npm install
 
-# Run the local server at localhost:5173
+# 启动本地开发服务（localhost:5173）
 npm run dev
 
-# Build for production in the dist/ directory
+# 构建生产版本到 dist/ 目录
 npm run build
 ```
 
-## Features
+## 功能特性
 
-TBD
+### 关卡生成
 
-### Level Generation
+所有关卡都保证可解。核心做法是在固定尺寸的六边形网格中，优先使用深度优先遍历（DFS）生成一条或多条连续路径。
 
-All levels in Drysland are guaranteed to be solvable. The game uses a custom adaptation of the **Growing Tree algorithm**, commonly used for maze generation.
+主路径生成后，算法会进行二次遍历，按概率增加额外连接，在不破坏可解性的前提下提升复杂度。
 
-The core idea is to “carve” one or more continuous paths through a fixed-size hexagonal grid, primarily using a depth-first traversal (DFS).
+最后再随机旋转所有地块，形成实际可玩的谜题。
 
-Once the main paths are generated, the algorithm performs a second pass to insert additional connections between blocks along the existing routes, subtly increasing the complexity without breaking solvability.
+当前主要可调参数包括：
 
-Finally, all tiles are randomly rotated to scramble the solution and form the playable puzzle.
+- **遍历策略**：路径生成时的节点选择方式（如 DFS、BFS 或混合策略）
+- **网格半径**：关卡大小
+- **网格覆盖率**：参与主路径生成的格子比例
+- **额外连接概率**：二次遍历中新增连接的概率
+- **死路保留比例**：保留死路以维持挑战性的比例
 
-The algorithm is configurable, the main parameters currently in use are:
+### 存档与同步
 
-- **Traversal strategy**: defines the node selection method during path carving (e.g. DFS, BFS, or hybrid approaches).
-- **Grid radius**: determines the size of the hexagonal level.
-- **Grid coverage**: controls how much of the grid is used to generate the main path(s).
-- **Extra link probability**: chance to add additional connections between blocks during the second pass.
-- **Dead-end preservation**: percentage of dead ends that are intentionally left untouched to preserve challenge and variety.
+<img src="./screens/log-in.png" alt="登录"  >
+<img src="./screens/state-conflict.png" alt="存档冲突"  >
 
-These parameters allow for fine-tuning the level structure and difficulty, and can be adjusted to explore different types of puzzle layouts. There’s room to explore more sophisticated path-building strategies.
+游戏会自动将进度保存在浏览器本地存储中。
+你也可以使用 Google 登录，实现多设备云同步。
+当本地与云端进度不一致时，会弹出冲突选择界面让你决定保留哪份存档。
 
-### Save System & Sync
+### 画质设置
 
-<img src="./screens/log-in.png" alt="Log in"  >
-<img src="./screens/state-conflict.png" alt="Cover"  >
+<img src="./screens/settings.png" alt="设置"  >
 
-Drysland automatically saves your progress locally using the browser’s local storage, so you can pick up right where you left off.
-For cross-device play, you can optionally log in with a Google account to sync your progress across multiple devices.
-If differences are detected between the local and cloud save data, a simple conflict resolution system will help you choose which version to keep.
+支持“高画质 / 高性能”模式切换，用于平衡阴影、水面效果与运行流畅度。你的选择会被自动保存并在下次进入时恢复。
 
-### Graphics Settings
+### 移动端适配
 
-<img src="./screens/settings.png" alt="Settings"  >
-
-Drysland offers a simple toggle between Quality and Performance modes. This setting adjusts shadows, water effects, and other visual details to strike a balance between visual fidelity and smooth performance. Your preference is saved and applied automatically each time you return.
-
-### Mobile-Friendly
-
-Drysland is optimized for mobile devices, providing a smooth and engaging experience on smartphones and tablets. It adapts to smaller screens, ensuring easy interaction and navigation on touch interfaces.
+Drysland 针对手机和平板做了交互与布局适配，在触摸屏上也能获得流畅体验。
 
 |                                                             |                                                               |                                                            |                                                                  |
 | ----------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------- |
-| <img src="./screens/mobile-1.png" alt="Mobile Main Menu"  > | <img src="./screens/mobile-2.png" alt="Mobile Level Start"  > | <img src="./screens/mobile-3.png" alt="Mobile Gameplay"  > | <img src="./screens/mobile-4.png" alt="Mobile Level Complete"  > |
+| <img src="./screens/mobile-1.png" alt="移动端主菜单"  > | <img src="./screens/mobile-2.png" alt="移动端关卡开始"  > | <img src="./screens/mobile-3.png" alt="移动端游戏中"  > | <img src="./screens/mobile-4.png" alt="移动端通关"  > |
 
-## Credits
+## 鸣谢
 
-Check out the credits section in the project for a full list of resources used
+完整素材来源可在游戏内 Credits 中查看。
 
-<img src="./screens/credits.png" alt="Credits"  >
+<img src="./screens/credits.png" alt="鸣谢"  >
 
-- **Hexagon Kit**  
-  by [Kenney.nl](https://kenney.nl/assets/hexagon-kit)
+- **Hexagon Kit**： [Kenney.nl](https://kenney.nl/assets/hexagon-kit)
+- **Cursor Pack**： [Kenney.nl](https://kenney.nl/assets/cursor-pack)
+- **Wind flow implementation**： [@boytchev](https://github.com/boytchev) / [CodePen](https://codepen.io/boytchev/pen/qBLNEVZ)
+- **音频素材**：来自 [Pixabay](https://pixabay.com)
+- **Skybox**： [Freestylized](https://freestylized.com/skybox/sky_42/)
+- **Low-Poly Seagull**： [simonaskLDE](https://skfb.ly/orun9) / [Sketchfab](https://sketchfab.com)
+- **Sail Ship**： [Quaternius](https://poly.pizza/m/cIzO4MBPqI) / [Poly Pizza](https://poly.pizza)
+- **Sailboat**： [Poly by Google](https://poly.pizza/m/1d76pfN4Dne) / [Poly Pizza](https://poly.pizza)
 
-- **Cursor Pack**  
-  by [Kenney.nl](https://kenney.nl/assets/cursor-pack)
+## 反馈
 
-- **Wind flow implementation**  
-  by [@boytchev](https://github.com/boytchev) from [CodePen](https://codepen.io/boytchev/pen/qBLNEVZ)
+欢迎提出建议或反馈。
 
-- **Happy Relaxing Loop Sound Effect**  
-  by [Sergei Chetvertnykh](https://pixabay.com/users/sergequadrado-24990007/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=275487) from [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=275487)
-
-- **Swing Whoosh In Room 8**  
-  by [floraphonic](https://pixabay.com/users/floraphonic-38928062/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=234259) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=234259)
-
-- **UI Pop Up 7**  
-  by [floraphonic](https://pixabay.com/users/floraphonic-38928062/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=197891) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=197891)
-
-- **Multi Pop 1**  
-  by [floraphonic](https://pixabay.com/users/floraphonic-38928062/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=188165) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=188165)
-
-- **Ocean Waves**  
-  by [Lynda Smith](https://pixabay.com/users/missywhimsyart-4358466/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=266187) from [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=266187)
-
-- **Notification Sound**  
-  by [Rasool Asaad](https://pixabay.com/users/rasoolasaad-47313572/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=269266) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=269266)
-
-- **Skybox**  
-  from [Freestylized](https://freestylized.com/skybox/sky_42/)
-
-- **Low-Poly Seagull (with Animation & Rigged)**  
-  by [simonaskLDE](https://skfb.ly/orun9) [[CC](http://creativecommons.org/licenses/by/4.0/)] from [Sketchfab](https://sketchfab.com)
-
-- **Sail Ship**  
-  by [Quaternius](https://poly.pizza/m/cIzO4MBPqI) from [Poly Pizza](https://poly.pizza)
-
-- **Sailboat**  
-  by [Poly by Google](https://poly.pizza/m/1d76pfN4Dne) [[CC](https://creativecommons.org/licenses/by/3.0/)] from [Poly Pizza](https://poly.pizza)
-
-## Feedback
-
-If you have any suggestions, feel free to reach out!
-
-## License
+## 许可证
 
 © 2025 Francesco Dammacco  
-This project is licensed under the GNU Affero General Public License v3.0.  
-See the [LICENSE](./LICENSE) file for details.
+本项目基于 GNU Affero General Public License v3.0 许可发布。  
+详见 [LICENSE](./LICENSE)。

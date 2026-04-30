@@ -29,7 +29,7 @@ export default class Auth {
       .disable(true)
 
     this.subscribe(user => {
-      UI.authToggle.setLabel(user ? 'Log out' : 'Log in').toggle(!user)
+      UI.authToggle.setLabel(user ? '退出登录' : '登录').toggle(!user)
       user && State.instance.sync()
 
       navigator.onLine && UI.authToggle.enable()

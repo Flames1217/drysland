@@ -123,7 +123,7 @@ export default class Experience {
     const blocks = state?.blocks
 
     this.level = level
-    UI.levelText.set(`Level ${this.level}`)
+    UI.levelText.set(`第 ${this.level} 关`)
 
     this.levelParams = GridConfig.instance.generateLevel(this.level - 1)
     debug.log(`level ${this.level}: `, this.levelParams)
@@ -160,7 +160,7 @@ export default class Experience {
     UI.nextButton.hide()
 
     this.camera.autoRotate = false
-    UI.startButton.setLabel('Resume')
+    UI.startButton.setLabel('继续')
     this.menu.open()
   }
 
