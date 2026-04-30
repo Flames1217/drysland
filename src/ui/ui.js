@@ -19,4 +19,6 @@ export default class UI {
 
   static levelText = new Text('#level')
   static tutorialText = new Text('#tutorial')
+  static authUserText = new Text('#auth-user')
+  static syncStatusText = new Text('#sync-status')
 }

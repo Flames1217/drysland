@@ -29,8 +29,16 @@ export default class Auth {
       .disable(true)
 
     this.subscribe(user => {
+      const displayName = user?.displayName || user?.email || '未登录'
+      UI.authUserText.set(`当前账号：${displayName}`)
       UI.authToggle.setLabel(user ? '退出登录' : '登录').toggle(!user)
-      user && State.instance.sync()
+
+      if (user) {
+        UI.syncStatusText.set('云存档：正在同步...')
+        State.instance.sync()
+      } else {
+        UI.syncStatusText.set('云存档：未连接')
+      }
 
       navigator.onLine && UI.authToggle.enable()
       window.addEventListener('offline', () => UI.authToggle.disable(true))
