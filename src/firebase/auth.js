@@ -30,8 +30,8 @@ export default class Auth {
       .disable(true)
 
     this.subscribe(user => {
-      const displayName = user?.displayName || user?.email || '未登录'
-      UI.authUserText.set(`当前账号：${displayName}`).show()
+      const accountEmail = user?.email || '未登录'
+      UI.authUserText.set(`账号邮箱：${accountEmail}`).show()
       UI.authToggle.setLabel(user ? '退出登录' : '登录').toggle(!user)
 
       if (user) {
